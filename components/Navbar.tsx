@@ -1,8 +1,11 @@
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from "react-native";
 import { Colors, BorderRadius, Shadows } from "@/constants/theme";
+import { useRouter } from "expo-router";
 
 export default function Navbar({ transparent = false }: { transparent?: boolean }) {
+  const router = useRouter();
+
   return (
     <View style={[styles.headerContainer, transparent && styles.transparentContainer]}>
       <View style={styles.topRow}>
@@ -11,11 +14,17 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
           <Text style={styles.logo}>Elite<Text style={{color: Colors.primary}}>Shop</Text></Text>
         </View>
         <View style={styles.topIcons}>
-          <TouchableOpacity style={[styles.iconButton, transparent && styles.transparentIconButton]}>
+          <TouchableOpacity 
+            style={[styles.iconButton, transparent && styles.transparentIconButton]}
+            onPress={() => router.push("/notifications")}
+          >
             <Ionicons name="notifications-outline" size={22} color={Colors.white} />
             <View style={styles.dotBadge} />
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.iconButton, transparent && styles.transparentIconButton]}>
+          <TouchableOpacity 
+            style={[styles.iconButton, transparent && styles.transparentIconButton]}
+            onPress={() => router.push("/(tabs)/cart")}
+          >
             <Ionicons name="cart-outline" size={22} color={Colors.white} />
             <View style={styles.badge}>
               <Text style={styles.badgeText}>3</Text>
@@ -24,20 +33,20 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
         </View>
       </View>
       
-      <View style={styles.searchWrapper}>
+      <TouchableOpacity 
+        activeOpacity={0.9} 
+        onPress={() => router.push("/search")}
+        style={styles.searchWrapper}
+      >
         <View style={styles.searchContainer}>
           <Ionicons name="search" size={18} color={Colors.textMuted} style={styles.searchIcon} />
-          <TextInput 
-            placeholder="Search premium products..." 
-            placeholderTextColor={Colors.textMuted}
-            style={styles.searchInput}
-          />
+          <Text style={styles.searchInput}>Search premium products...</Text>
           <View style={styles.divider} />
-          <TouchableOpacity style={styles.cameraButton}>
+          <View style={styles.cameraButton}>
             <Ionicons name="scan-outline" size={20} color={Colors.primary} />
-          </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 }

@@ -171,76 +171,79 @@ export default function HomeScreen() {
           </View>
         </View>
         
-        {/* Transparent Navbar Overlay */}
         <View style={styles.navbarOverlay}>
           <Navbar transparent />
         </View>
       </View>
 
-      {/* Quick Actions / Categories */}
-      <View style={styles.sectionContainer}>
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Shop by Category</Text>
-          <TouchableOpacity onPress={() => router.push("/category-products")}>
-            <Text style={styles.seeAllText}>See All</Text>
-          </TouchableOpacity>
-        </View>
-        <ScrollView 
-          horizontal 
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.categoriesList}
-        >
-          {categories.map((cat) => (
-            <TouchableOpacity 
-              key={cat.id} 
-              style={styles.categoryChip}
-              onPress={() => router.push({
-                pathname: "/category-products",
-                params: { category: cat.title }
-              })}
-            >
-              <View style={styles.categoryIconCircle}>
-                <Ionicons name={cat.icon as any} size={24} color={Colors.primary} />
-              </View>
-              <Text style={styles.categoryLabel}>{cat.title}</Text>
+      {/* Newsletter / Promo */}
+      <View style={styles.promoBannerContainer}>
+        <View style={styles.promoBanner}>
+          <View style={styles.promoTextContent}>
+            <Text style={styles.promoTitle}>Join the Elite Club</Text>
+            <Text style={styles.promoSubtitle}>Get 20% off your first order & exclusive access to drops.</Text>
+            <TouchableOpacity style={styles.promoBtn}>
+              <Text style={styles.promoBtnText}>Subscribe Now</Text>
             </TouchableOpacity>
-          ))}
-        </ScrollView>
+          </View>
+          <Image 
+            source={{ uri: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=400" }} 
+            style={styles.promoBannerImage} 
+          />
+        </View>
       </View>
 
-      {/* Flash Sale */}
-      <View style={[styles.sectionContainer, styles.flashSaleSection]}>
+      {/* Deals of the Day - Grid */}
+      <View style={styles.sectionContainer}>
         <View style={styles.sectionHeader}>
-          <View style={styles.flashSaleTitleRow}>
-            <Text style={styles.sectionTitle}>Flash Sale</Text>
-            <View style={styles.timerBadge}>
-              <Ionicons name="time-outline" size={14} color={Colors.white} />
-              <Text style={styles.timerText}>02 : 45 : 12</Text>
-            </View>
+          <View>
+            <Text style={styles.sectionTitle}>Deals of the Day</Text>
+            <Text style={styles.sectionSubtitle}>Exclusive prices for the next 24 hours</Text>
           </View>
           <TouchableOpacity>
             <Text style={styles.seeAllText}>View All</Text>
           </TouchableOpacity>
         </View>
-        <ScrollView 
-          horizontal 
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.horizontalProducts}
-        >
-          {flashSaleProducts.map((product) => (
-            <View key={product.id} style={{ width: width * 0.45, marginRight: 4 }}>
+        <View style={styles.dealsGrid}>
+          {featuredProducts.slice(0, 4).map((product) => (
+            <TouchableOpacity key={product.id} style={styles.dealCard}>
+              <Image source={{ uri: product.image }} style={styles.dealImage} />
+              <View style={styles.dealBadge}>
+                <Text style={styles.dealBadgeText}>-40%</Text>
+              </View>
+              <Text style={styles.dealTitle} numberOfLines={1}>{product.title}</Text>
+              <Text style={styles.dealPrice}>${product.price}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </View>
+
+      {/* New Arrivals - Horizontal Carousel */}
+      <View style={styles.sectionContainer}>
+        <View style={styles.sectionHeader}>
+          <View>
+            <Text style={styles.sectionTitle}>New Arrivals</Text>
+            <Text style={styles.sectionSubtitle}>Fresh styles just landed in our store</Text>
+          </View>
+          <TouchableOpacity>
+            <Text style={styles.seeAllText}>Explore</Text>
+          </TouchableOpacity>
+        </View>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.horizontalList}>
+          {allProducts.map((product) => (
+            <View key={product.id} style={styles.horizontalItem}>
               <ProductCard item={product} />
             </View>
           ))}
         </ScrollView>
       </View>
 
-      {/* Brands Section */}
+      {/* Popular Brands */}
       <View style={styles.sectionContainer}>
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Popular Brands</Text>
         </View>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.brandsList}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.brandsContainer}>
           {brands.map((brand) => (
             <TouchableOpacity key={brand.id} style={styles.brandCard}>
               <Image source={{ uri: brand.logo }} style={styles.brandLogo} />
@@ -250,66 +253,35 @@ export default function HomeScreen() {
         </ScrollView>
       </View>
 
-      {/* Featured Collections */}
-      <View style={styles.collectionsWrapper}>
-        <TouchableOpacity style={styles.collectionBox} activeOpacity={0.8}>
-          <Image 
-            source={{ uri: "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=600" }} 
-            style={styles.collectionImage}
-          />
-          <View style={styles.collectionLabel}>
-            <Text style={styles.collectionTitle}>New Arrivals</Text>
-            <Text style={styles.collectionSubtitle}>2024 Trends</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.collectionBox} activeOpacity={0.8}>
-          <Image 
-            source={{ uri: "https://images.unsplash.com/photo-1491933382434-50028638cecd?q=80&w=600" }} 
-            style={styles.collectionImage}
-          />
-          <View style={styles.collectionLabel}>
-            <Text style={styles.collectionTitle}>Best Sellers</Text>
-            <Text style={styles.collectionSubtitle}>Customer Favorites</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-
-      {/* Recommended Products */}
-      <View style={styles.sectionContainer}>
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Recommended For You</Text>
-        </View>
-        <View style={styles.productGrid}>
-          {featuredProducts.map((item) => (
-            <View key={item.id} style={styles.gridItem}>
-              <ProductCard item={item} />
-            </View>
-          ))}
-        </View>
-      </View>
-
-      {/* Trust Badges */}
+      {/* Why Shop With Us - Trust Badges */}
       <View style={styles.trustSection}>
         <View style={styles.trustItem}>
-          <View style={styles.trustIcon}>
+          <View style={styles.trustIconCircle}>
             <Ionicons name="shield-checkmark" size={24} color={Colors.primary} />
           </View>
-          <Text style={styles.trustTitle}>100% Genuine</Text>
-          <Text style={styles.trustDesc}>Direct from brands</Text>
+          <Text style={styles.trustTitle}>Secure</Text>
+          <Text style={styles.trustDesc}>Payments</Text>
         </View>
         <View style={styles.trustItem}>
-          <View style={styles.trustIcon}>
-            <Ionicons name="refresh-circle" size={24} color={Colors.primary} />
+          <View style={styles.trustIconCircle}>
+            <Ionicons name="airplane" size={24} color={Colors.primary} />
           </View>
-          <Text style={styles.trustTitle}>Easy Returns</Text>
-          <Text style={styles.trustDesc}>30-day window</Text>
+          <Text style={styles.trustTitle}>Fast</Text>
+          <Text style={styles.trustDesc}>Shipping</Text>
         </View>
         <View style={styles.trustItem}>
-          <View style={styles.trustIcon}>
-            <Ionicons name="rocket" size={24} color={Colors.primary} />
+          <View style={styles.trustIconCircle}>
+            <Ionicons name="refresh" size={24} color={Colors.primary} />
           </View>
-          <Text style={styles.trustTitle}>Express</Text>
-          <Text style={styles.trustDesc}>Next day delivery</Text>
+          <Text style={styles.trustTitle}>Easy</Text>
+          <Text style={styles.trustDesc}>Returns</Text>
+        </View>
+        <View style={styles.trustItem}>
+          <View style={styles.trustIconCircle}>
+            <Ionicons name="headset" size={24} color={Colors.primary} />
+          </View>
+          <Text style={styles.trustTitle}>24/7</Text>
+          <Text style={styles.trustDesc}>Support</Text>
         </View>
       </View>
 
@@ -408,107 +380,158 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primary,
   },
   sectionContainer: {
-    marginTop: 30,
+    marginTop: 35,
     paddingHorizontal: 20,
   },
   sectionHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 15,
+    alignItems: "flex-end",
+    marginBottom: 20,
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: "800",
+    fontSize: 22,
+    fontWeight: "900",
     color: Colors.secondary,
+    letterSpacing: -0.5,
+  },
+  sectionSubtitle: {
+    fontSize: 13,
+    color: Colors.textMuted,
+    fontWeight: "600",
+    marginTop: 2,
   },
   seeAllText: {
     color: Colors.primary,
     fontSize: 14,
-    fontWeight: "700",
+    fontWeight: "800",
   },
-  categoriesList: {
-    paddingRight: 20,
-    gap: 20,
+  promoBannerContainer: {
+    paddingHorizontal: 20,
+    marginTop: 30,
   },
-  categoryChip: {
+  promoBanner: {
+    backgroundColor: Colors.primaryLight,
+    borderRadius: BorderRadius.lg,
+    flexDirection: "row",
+    padding: 20,
     alignItems: "center",
-    width: 70,
+    borderWidth: 1,
+    borderColor: Colors.primary,
+    overflow: "hidden",
   },
-  categoryIconCircle: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+  promoTextContent: {
+    flex: 1,
+    zIndex: 2,
+  },
+  promoTitle: {
+    fontSize: 18,
+    fontWeight: "900",
+    color: Colors.secondary,
+    marginBottom: 5,
+  },
+  promoSubtitle: {
+    fontSize: 12,
+    color: Colors.textSecondary,
+    lineHeight: 18,
+    marginBottom: 15,
+    fontWeight: "500",
+  },
+  promoBtn: {
+    backgroundColor: Colors.secondary,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: BorderRadius.sm,
+    alignSelf: "flex-start",
+  },
+  promoBtnText: {
+    color: Colors.white,
+    fontSize: 12,
+    fontWeight: "800",
+  },
+  promoBannerImage: {
+    width: 120,
+    height: 120,
+    position: "absolute",
+    right: -10,
+    bottom: -10,
+    opacity: 0.8,
+  },
+  dealsGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    gap: 15,
+  },
+  dealCard: {
+    width: (width - 55) / 2,
     backgroundColor: Colors.white,
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 8,
+    borderRadius: BorderRadius.md,
+    padding: 10,
     ...Shadows.sm,
     borderWidth: 1,
     borderColor: Colors.border,
   },
-  categoryLabel: {
-    fontSize: 11,
-    color: Colors.textSecondary,
-    fontWeight: "600",
-    textAlign: "center",
-  },
-  flashSaleSection: {
-    backgroundColor: Colors.primaryLight,
-    paddingVertical: 25,
-    marginTop: 35,
-  },
-  flashSaleTitleRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
-  },
-  timerBadge: {
-    backgroundColor: Colors.error,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 4,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
+  dealImage: {
+    width: "100%",
+    height: 120,
     borderRadius: BorderRadius.sm,
+    marginBottom: 10,
   },
-  timerText: {
+  dealBadge: {
+    position: "absolute",
+    top: 15,
+    left: 15,
+    backgroundColor: Colors.error,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 4,
+  },
+  dealBadgeText: {
     color: Colors.white,
-    fontSize: 11,
-    fontWeight: "800",
+    fontSize: 10,
+    fontWeight: "bold",
   },
-  horizontalProducts: {
-    paddingRight: 20,
+  dealTitle: {
+    fontSize: 13,
+    fontWeight: "700",
+    color: Colors.secondary,
+    marginBottom: 4,
   },
-  brandsList: {
+  dealPrice: {
+    fontSize: 15,
+    fontWeight: "900",
+    color: Colors.primary,
+  },
+  horizontalList: {
     paddingRight: 20,
-    gap: 12,
+    gap: 15,
+  },
+  horizontalItem: {
+    width: width * 0.45,
+  },
+  brandsContainer: {
+    paddingRight: 20,
+    gap: 15,
   },
   brandCard: {
-    width: 100,
-    padding: 12,
     backgroundColor: Colors.white,
-    borderRadius: BorderRadius.md,
+    padding: 15,
+    borderRadius: BorderRadius.lg,
     alignItems: "center",
     borderWidth: 1,
     borderColor: Colors.border,
+    width: 100,
+    ...Shadows.sm,
   },
   brandLogo: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
     marginBottom: 8,
   },
   brandName: {
     fontSize: 12,
-    fontWeight: "bold",
-    color: Colors.text,
-  },
-  collectionsWrapper: {
-    flexDirection: "row",
-    paddingHorizontal: 20,
-    marginTop: 30,
-    gap: 12,
   },
   collectionBox: {
     flex: 1,
