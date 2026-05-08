@@ -45,7 +45,8 @@
       "reactCompiler": true
     },
     "updates": {
-      "enabled": false
+      "enabled": false,
+      "checkOnLaunch": "NEVER"
     }
   }
 }
