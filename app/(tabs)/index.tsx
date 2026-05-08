@@ -356,7 +356,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     backgroundColor: "rgba(0,0,0,0.4)",
     padding: 20,
-    paddingTop: 160,
+    paddingTop: 180,
     justifyContent: "center",
   },
   bannerTag: {

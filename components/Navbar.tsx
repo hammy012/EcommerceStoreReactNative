@@ -45,8 +45,8 @@ export default function Navbar({ transparent = false }: { transparent?: boolean 
 const styles = StyleSheet.create({
   headerContainer: {
     backgroundColor: Colors.secondary,
-    paddingTop: 60,
-    paddingBottom: 20,
+    paddingTop: 55,
+    paddingBottom: 15,
     paddingHorizontal: 20,
     borderBottomLeftRadius: BorderRadius.xl,
     borderBottomRightRadius: BorderRadius.xl,
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: 12,
   },
   welcomeText: {
     color: Colors.textMuted,
