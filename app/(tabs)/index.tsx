@@ -6,7 +6,6 @@ import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
   FlatList,
-  Image,
   ScrollView,
   StyleSheet,
   Text,
@@ -15,6 +14,7 @@ import {
   Dimensions,
   StatusBar,
 } from "react-native";
+import { Image } from "expo-image";
 import { Colors, BorderRadius, Spacing, Shadows } from "@/constants/theme";
 
 const { width } = Dimensions.get("window");
@@ -139,10 +139,9 @@ export default function HomeScreen() {
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <StatusBar barStyle="light-content" />
-      <Navbar />
-
-      {/* Hero Banner */}
-      <View style={styles.bannerWrapper}>
+      
+      {/* Hero Banner with Overlay Navbar */}
+      <View style={styles.topSection}>
         <View style={styles.bannerContainer}>
           <FlatList
             data={banners}
@@ -150,11 +149,11 @@ export default function HomeScreen() {
             horizontal
             pagingEnabled
             showsHorizontalScrollIndicator={false}
-            snapToInterval={width - 40}
+            snapToInterval={width}
             snapToAlignment="center"
             decelerationRate="fast"
             onMomentumScrollEnd={(e) => {
-              const index = Math.round(e.nativeEvent.contentOffset.x / (width - 40));
+              const index = Math.round(e.nativeEvent.contentOffset.x / width);
               setActiveBanner(index);
             }}
             keyExtractor={(item) => item.id}
@@ -170,6 +169,11 @@ export default function HomeScreen() {
               />
             ))}
           </View>
+        </View>
+        
+        {/* Transparent Navbar Overlay */}
+        <View style={styles.navbarOverlay}>
+          <Navbar transparent />
         </View>
       </View>
 
@@ -319,26 +323,30 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.background,
   },
-  bannerWrapper: {
-    marginTop: -20,
-    paddingHorizontal: 20,
-    zIndex: 5,
+  topSection: {
+    height: 350,
+    width: width,
+    position: "relative",
   },
   bannerContainer: {
-    height: 180,
-    borderRadius: BorderRadius.xl,
-    overflow: "hidden",
-    ...Shadows.lg,
+    height: 350,
+    width: width,
   },
   bannerSlide: {
-    width: width - 40,
-    height: "100%",
+    width: width,
+    height: 350,
     position: "relative",
   },
   bannerImage: {
-    width: "100%",
-    height: "100%",
-    resizeMode: "cover",
+    width: width,
+    height: 350,
+  },
+  navbarOverlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 10,
   },
   bannerOverlay: {
     position: "absolute",
@@ -346,8 +354,9 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: "rgba(0,0,0,0.35)",
+    backgroundColor: "rgba(0,0,0,0.4)",
     padding: 20,
+    paddingTop: 160,
     justifyContent: "center",
   },
   bannerTag: {
@@ -360,43 +369,43 @@ const styles = StyleSheet.create({
   },
   bannerTitle: {
     color: Colors.white,
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: "900",
     marginBottom: 4,
   },
   bannerSubtitle: {
     color: "rgba(255,255,255,0.9)",
-    fontSize: 13,
+    fontSize: 14,
     marginBottom: 15,
   },
   bannerButton: {
     backgroundColor: Colors.primary,
     paddingHorizontal: 15,
-    paddingVertical: 8,
+    paddingVertical: 10,
     borderRadius: BorderRadius.sm,
     alignSelf: "flex-start",
   },
   bannerButtonText: {
     color: Colors.white,
     fontWeight: "bold",
-    fontSize: 12,
+    fontSize: 14,
   },
   bannerPagination: {
     position: "absolute",
-    bottom: 10,
+    bottom: 20,
     flexDirection: "row",
     alignSelf: "center",
-    gap: 5,
+    gap: 8,
   },
   bannerDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
+    width: 8,
+    height: 8,
+    borderRadius: 4,
     backgroundColor: "rgba(255,255,255,0.4)",
   },
   bannerDotActive: {
-    width: 15,
-    backgroundColor: Colors.white,
+    width: 20,
+    backgroundColor: Colors.primary,
   },
   sectionContainer: {
     marginTop: 30,
